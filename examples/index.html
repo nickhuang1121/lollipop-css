@@ -1,228 +1,491 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="LollipopCSS 瀏覽器端 CSS 小工具示範頁">
-    <title>LollipopCSS Playground</title>
+    <meta name="description" content="LollipopCSS is a tiny CSS preprocessor for defining your own reusable CSS vocabulary.">
+    <title>LollipopCSS - Same CSS. Less typing.</title>
     <link rel="lollipop-stylesheet" href="./style.lcss">
     <script src="../src/lollipop-css.js" defer></script>
 </head>
 
 <body>
+    <a class="skip-link" href="#playground">Skip to playground</a>
 
-    <main class="cards" aria-labelledby="intro-title">
-        <article class="card manifesto">
-            <h1 class="card-title" id="intro-title">Why LollipopCSS?</h1>
-            <div class="card-content">
-                <blockquote>
-                    <p class="manifesto-lead">SCSS can already do all of this. That's not the problem.</p>
-                    <p>
-                        The problem is that when I'm maintaining a large project, I'm too lazy
-                        to keep writing <code>@mixin</code> and <code>@include</code> over and over again.
-                    </p>
-                    <p>So I made LollipopCSS.</p>
-                    <p class="manifesto-punchline">
-                        Yes, I'm lazy. Very lazy. 🍭 I have better things to do — like eating
-                        McFlurries and lollipops. 🍦🍭
-                    </p>
-                </blockquote>
+    <header class="hero" id="top">
+        <nav class="top-nav" aria-label="Primary">
+            <a class="brand" href="#top" aria-label="LollipopCSS home">
+                <img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f36d.svg" alt="" width="32" height="32">
+                <span>LollipopCSS</span>
+            </a>
+            <div class="nav-links">
+                <a href="#playground">Try it</a>
+                <a href="#docs">Docs</a>
+                <a href="https://github.com/nickhuang1121/lollipop-css">GitHub</a>
             </div>
-        </article>
+        </nav>
 
-        <article class="card">
-            <h2 class="card-title">1. Write LollipopCSS</h2>
-            <div class="card-content">
-                <p>Define a value and a utility inside <code>@lollipop</code>, then use the utility by name.</p>
-                <pre aria-label="LollipopCSS input example"><code>@lollipop {
-    pxMd 15px
-    paddingMd padding pxMd
-}
+        <div class="hero-grid">
+            <section class="hero-copy" aria-labelledby="hero-title">
+                <p class="eyebrow">A tiny CSS preprocessor for lazy developers</p>
+                <h1 id="hero-title">CSS is fine.<br>SCSS is fine.<br>I'm just lazy. <span aria-hidden="true">🍭</span></h1>
+                <p class="hero-subtitle">Create your own tiny CSS vocabulary. Same CSS. Less typing.</p>
+                <div class="hero-actions" aria-label="Primary actions">
+                    <a class="button button-primary" href="#playground">Try it</a>
+                    <a class="button" href="https://github.com/nickhuang1121/lollipop-css">GitHub</a>
+                    <a class="button" href="#docs">Examples / Docs</a>
+                </div>
+                <p class="hero-note">Define it once. Be lazy everywhere else.</p>
+            </section>
 
+            <section class="hero-code" aria-label="LollipopCSS example">
+                <div class="code-panel code-panel-accent">
+                    <div class="panel-header">
+                        <span>LollipopCSS</span>
+                        <span>usage.lcss</span>
+                    </div>
+                    <pre><code>.card {
+    ...flexCenter
+    pMd
+    BGpink
+}</code></pre>
+                </div>
+            </section>
+        </div>
+    </header>
+
+    <main>
+        <section class="section compare-section" aria-labelledby="compare-title">
+            <div class="section-heading">
+                <p class="eyebrow">The lazy bargain</p>
+                <h2 id="compare-title">Define it once. Then stop typing so much.</h2>
+                <p>CSS and Sass can already do the job. LollipopCSS just lets you pay the setup cost once, then use the tiny version everywhere.</p>
+            </div>
+
+            <div class="compare-grid" aria-label="CSS SCSS and LollipopCSS comparison">
+                <article class="code-panel">
+                    <div class="panel-header">
+                        <span>CSS</span>
+                        <span>repeat declarations</span>
+                    </div>
+                    <pre><code>/* Definition cost */
+/* none */
+
+/* Usage cost */
 .card {
-    paddingMd
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: #ffafcc;
 }
-.card-title {
-    paddingMd
-}</code></pre>
-            </div>
-        </article>
 
-        <article class="card">
-            <h2 class="card-title">2. Get valid CSS</h2>
-            <div class="card-content">
-                <p>LollipopCSS resolves the reusable value and outputs standard CSS for the browser.</p>
-                <pre aria-label="Compiled CSS output example"><code>.card {
-    padding: 15px;
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: #ffafcc;
 }
-.card-title {
-    padding: 15px;
+
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: #ffafcc;
 }</code></pre>
-            </div>
-        </article>
+                </article>
 
-        <article class="card">
-            <h2 class="card-title">3. Apply it automatically</h2>
-            <div class="card-content">
-                <p>
-                    Use <code>rel="lollipop-stylesheet"</code> to load an LCSS file. By default,
-                    LollipopCSS compiles it and replaces the link with a generated
-                    <code>&lt;style&gt;</code> element in the document head.
-                </p>
-                <pre aria-label="Automatic loading example"><code>&lt;link
-    rel="lollipop-stylesheet"
-    href="./style.lcss"
-&gt;
-&lt;script src="lollipop-css.js" defer&gt;&lt;/script&gt;</code></pre>
-            </div>
-        </article>
+                <article class="code-panel">
+                    <div class="panel-header">
+                        <span>SCSS</span>
+                        <span>mixin + include</span>
+                    </div>
+                    <pre><code>/* Definition cost */
+$pink: #ffafcc;
+$space: 16px;
 
-        <article class="card">
-            <h2 class="card-title">4. Or export a CSS file</h2>
-            <div class="card-content">
-                <p>
-                    Need a standalone file? Set <code>output</code> to <code>download</code>.
-                    The same LCSS source will be compiled and downloaded as regular CSS.
-                </p>
-                <pre aria-label="CSS download example"><code>await LollipopCSS.load("./style.lcss", {
-    output: "download",
-    filename: "style.css"
-});</code></pre>
-                <button class="export-button" type="button" onclick="exportCSS()">
-                    Export style.css
-                </button>
-            </div>
-        </article>
+@mixin flexCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        <article class="card loading-guide">
-            <h2 class="card-title">5. Every loading method</h2>
-            <div class="card-content">
-                <p>Choose the smallest API that matches where your LCSS comes from.</p>
-                <div class="loading-grid">
-                    <section class="loading-method">
-                        <h3>Automatic external file</h3>
-                        <p>Best for normal browser usage. Imports are resolved automatically.</p>
-                        <pre><code>&lt;link rel="lollipop-stylesheet"
-      href="./style.lcss"&gt;
-&lt;script src="lollipop-css.js" defer&gt;&lt;/script&gt;</code></pre>
-                    </section>
+/* Usage cost */
+.card {
+    @include flexCenter;
+    padding: $space;
+    background: $pink;
+}
 
-                    <section class="loading-method">
-                        <h3>JavaScript URL loading</h3>
-                        <p>Loads, compiles, resolves imports, and inserts a <code>&lt;style&gt;</code>.</p>
-                        <pre><code>await LollipopCSS.load("./style.lcss");</code></pre>
-                    </section>
+.header {
+    @include flexCenter;
+    padding: $space;
+    background: $pink;
+}
 
-                    <section class="loading-method">
-                        <h3>Inline LCSS</h3>
-                        <p>Useful for small styles without external imports.</p>
-                        <pre><code>&lt;style type="text/lollipop"&gt;
+.modal {
+    @include flexCenter;
+    padding: $space;
+    background: $pink;
+}</code></pre>
+                </article>
+
+                <article class="code-panel code-panel-accent">
+                    <div class="panel-header">
+                        <span>LollipopCSS</span>
+                        <span>define once, type less</span>
+                    </div>
+                    <pre><code>/* Definition cost */
 @lollipop {
     pink #ffafcc
-}
-&lt;/style&gt;</code></pre>
-                    </section>
+    space 16px
+    pMd padding space
+    BGpink background pink
 
-                    <section class="loading-method">
-                        <h3>Compile a string</h3>
-                        <p>
-                            <code>source</code> is a JavaScript string containing raw LCSS,
-                            such as text from an editor, a textarea, or generated content.
-                            Use the synchronous compiler when that string has no imports.
-                        </p>
-                        <pre><code>const source = `
-@lollipop {
+    flexCenter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Usage cost */
+.card {
+    ...flexCenter
+    pMd
+    BGpink
+}
+
+.header {
+    ...flexCenter
+    pMd
+    BGpink
+}
+
+.modal {
+    ...flexCenter
+    pMd
+    BGpink
+}</code></pre>
+                </article>
+            </div>
+        </section>
+
+        <section class="section playground-section" id="playground" aria-labelledby="playground-title">
+            <div class="section-heading">
+                <p class="eyebrow">Interactive playground</p>
+                <h2 id="playground-title">Type LollipopCSS. Get CSS.</h2>
+                <p>The browser compiler below uses the same <code>LollipopCSS</code> API shipped in this repository.</p>
+            </div>
+
+            <div class="playground-toolbar" aria-label="Playground presets">
+                <div class="preset-group">
+                    <button class="preset-button is-active" type="button" data-preset="starter">Starter</button>
+                    <button class="preset-button" type="button" data-preset="snippets">Snippets</button>
+                    <button class="preset-button" type="button" data-preset="imports">Imports</button>
+                    <button class="preset-button" type="button" data-preset="plain">Plain CSS</button>
+                </div>
+                <button class="copy-button" type="button" id="copy-css">Copy CSS</button>
+            </div>
+
+            <div class="playground-grid">
+                <label class="playground-pane" for="lcss-input">
+                    <span class="pane-title">LollipopCSS input</span>
+                    <textarea id="lcss-input" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+                </label>
+
+                <section class="playground-pane" aria-labelledby="compiled-title">
+                    <div class="pane-title pane-title-row">
+                        <span id="compiled-title">Compiled CSS output</span>
+                        <span class="compile-status" id="compile-status" aria-live="polite">Ready</span>
+                    </div>
+                    <pre class="output-pre"><code id="css-output"></code></pre>
+                    <p class="compile-error" id="compile-error" role="alert" hidden></p>
+                </section>
+            </div>
+        </section>
+
+        <section class="section imports-section" aria-labelledby="imports-title">
+            <div class="section-heading">
+                <p class="eyebrow">Imports</p>
+                <h2 id="imports-title">Split shortcuts into reusable LCSS files.</h2>
+                <p>Real syntax from this project: <code>@importlollipop "./var.lcss"</code>. Use <code>compileAsync()</code> or <code>LollipopCSS.load()</code> when imports are involved.</p>
+            </div>
+
+            <div class="imports-grid">
+                <article class="code-panel">
+                    <div class="panel-header">
+                        <span>tokens.lcss</span>
+                        <span>shared vocabulary</span>
+                    </div>
+                    <pre><code>@lollipop {
+    pink #ffafcc
+    ink #31283a
+    pMd padding 16px
+    BGpink background pink
+    textInk color ink
+}</code></pre>
+                </article>
+
+                <article class="code-panel code-panel-accent">
+                    <div class="panel-header">
+                        <span>style.lcss</span>
+                        <span>uses imports</span>
+                    </div>
+                    <pre><code>@importlollipop "./tokens.lcss"
+
+.button {
+    pMd
+    BGpink
+    textInk
+}</code></pre>
+                </article>
+            </div>
+        </section>
+
+        <section class="section features-section" id="docs" aria-labelledby="docs-title">
+            <div class="section-heading">
+                <p class="eyebrow">What it actually does</p>
+                <h2 id="docs-title">Small features, plain output.</h2>
+                <p>Unknown CSS stays untouched. Recognized LollipopCSS commands compile to regular CSS.</p>
+            </div>
+
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <h3>Custom shortcuts</h3>
+                    <p>Map one command to a CSS property and value.</p>
+                    <pre><code>@lollipop {
+    pMd padding 16px
+}</code></pre>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Values</h3>
+                    <p>Name reusable values and reuse them inside shortcuts or declarations.</p>
+                    <pre><code>@lollipop {
     pink #ffafcc
     BGpink background pink
-}
+}</code></pre>
+                </article>
 
-.card {
-    BGpink
-}`;
+                <article class="feature-card">
+                    <h3>Style blocks</h3>
+                    <p>Reuse a block with <code>...name</code>.</p>
+                    <pre><code>@lollipop {
+    flexCenter {
+        display: flex;
+        align-items: center;
+    }
+}</code></pre>
+                </article>
 
-const compiler = new LollipopCSS();
-const css = compiler.compile(source);</code></pre>
-                    </section>
+                <article class="feature-card">
+                    <h3>Imports</h3>
+                    <p>Keep a vocabulary file and pull it into another LCSS file.</p>
+                    <pre><code>@importlollipop "./var.lcss"</code></pre>
+                </article>
 
-                    <section class="loading-method">
-                        <h3>Compile a string with imports</h3>
-                        <p>The base URL tells relative imports where to load from.</p>
-                        <pre><code>const css = await compiler.compileAsync(source, {
-    baseUrl: response.url
-});</code></pre>
-                        <p><a href="./index_import.html">Open the complete manual import example →</a></p>
-                    </section>
+                <article class="feature-card">
+                    <h3>Plain CSS compatibility</h3>
+                    <p>Normal CSS can live beside shortcuts.</p>
+                    <pre><code>.card {
+    display: grid;
+    pMd
+}</code></pre>
+                </article>
 
-                    <section class="loading-method">
-                        <h3>Download compiled CSS</h3>
-                        <p>Compiles the URL and downloads the result as a regular file.</p>
-                        <pre><code>await LollipopCSS.load("./style.lcss", {
-    output: "download",
-    filename: "style.css"
-});</code></pre>
-                    </section>
-                </div>
+                <article class="feature-card">
+                    <h3>Browser compiler</h3>
+                    <p>Load a stylesheet or compile a string directly in the browser.</p>
+                    <pre><code>const css = await new LollipopCSS()
+    .compileAsync(source, { baseUrl });</code></pre>
+                </article>
             </div>
-        </article>
+        </section>
 
-        <article class="card compiled-example">
-            <h2 class="card-title">6. LCSS → CSS comparison</h2>
-            <div class="card-content">
-                <p>
-                    Both panels come from the same live <code>style.lcss</code> file.
-                    Compare the LollipopCSS source with its compiled CSS output.
-                </p>
-                <div class="comparison-grid">
-                    <section class="comparison-panel" aria-labelledby="lcss-source-title">
-                        <h3 class="comparison-label" id="lcss-source-title">Source · style.lcss</h3>
-                        <pre class="code-output" aria-label="Complete LollipopCSS source"><code id="lcss-source-output">Loading style.lcss…</code></pre>
-                    </section>
-                    <section class="comparison-panel" aria-labelledby="css-output-title">
-                        <h3 class="comparison-label" id="css-output-title">Output · style.css</h3>
-                        <pre class="code-output" aria-label="Complete compiled CSS"><code id="compiled-css-output">Compiling style.lcss…</code></pre>
-                    </section>
-                </div>
+        <section class="section philosophy-section" aria-labelledby="why-title">
+            <div class="philosophy-copy">
+                <p class="eyebrow">Why this exists</p>
+                <h2 id="why-title">SCSS can already do all of this.</h2>
+                <p>That's not the problem.</p>
+                <p>The problem is that when I'm maintaining a large project, I'm too lazy to keep writing <code>@mixin</code> and <code>@include</code> over and over again.</p>
+                <p>So I made LollipopCSS.</p>
+                <p class="punchline">Yes, I'm lazy. Very lazy. More time for McFlurries and lollipops. 🍦🍭</p>
             </div>
-        </article>
+            <div class="philosophy-links" aria-label="Next steps">
+                <a class="button button-primary" href="#playground">Try the playground</a>
+                <a class="button" href="./index_import.html">Manual import example</a>
+                <a class="button" href="https://github.com/nickhuang1121/lollipop-css#readme">README</a>
+            </div>
+        </section>
     </main>
 
     <script>
-        async function exportCSS() {
-            try {
-                await LollipopCSS.load("./style.lcss", {
-                    output: "download",
-                    filename: "style.css"
-                });
-            } catch (error) {
-                console.error("CSS export failed:", error);
+        window.addEventListener("DOMContentLoaded", () => {
+            const input = document.getElementById("lcss-input");
+            const output = document.getElementById("css-output");
+            const status = document.getElementById("compile-status");
+            const error = document.getElementById("compile-error");
+            const copyButton = document.getElementById("copy-css");
+            const presetButtons = Array.from(document.querySelectorAll("[data-preset]"));
+
+            const importedTokens = `@lollipop {
+    pink #ffafcc
+    ink #31283a
+    pMd padding 16px
+    gapMd gap 16px
+    BGpink background pink
+    textInk color ink
+
+    flexCenter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}`;
+
+            const presets = {
+                starter: `@lollipop {
+    pink #ffafcc
+    pMd padding 16px
+    BGpink background pink
+
+    flexCenter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.card {
+    ...flexCenter
+    pMd
+    BGpink
+}`,
+                snippets: `@lollipop {
+    space 20px
+    candy #ffafcc
+    softBorder border 1px solid rgba(49,40,58,.14)
+    pSpace padding space
+    BGcandy background candy
+
+    cardShell {
+        pSpace
+        softBorder
+        border-radius: 8px;
+    }
+}
+
+.modal {
+    ...cardShell
+    BGcandy
+    color: #31283a;
+}`,
+                imports: `@importlollipop "./tokens.lcss"
+
+.button {
+    ...flexCenter
+    pMd
+    gapMd
+    BGpink
+    textInk
+}`,
+                plain: `.plain-css-still-works {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    color: #31283a;
+}`
+            };
+
+            let compileTimer = 0;
+            let compileRun = 0;
+            let lastSuccessfulCss = "";
+
+            function setStatus(text, state) {
+                status.textContent = text;
+                status.dataset.state = state;
             }
-        }
 
-        async function showCompiledCSS() {
-            const sourceOutput = document.getElementById("lcss-source-output");
-            const compiledOutput = document.getElementById("compiled-css-output");
-
-            try {
-                const response = await fetch("./style.lcss");
-                if (!response.ok) {
-                    throw new Error(`Failed to load style.lcss: ${response.status}`);
+            async function loadImport(specifier, baseUrl) {
+                const resolved = new URL(specifier, baseUrl);
+                if (resolved.pathname.endsWith("/tokens.lcss")) {
+                    return {
+                        source: importedTokens,
+                        baseUrl: resolved.href
+                    };
                 }
 
-                const source = await response.text();
-                sourceOutput.textContent = source;
-                compiledOutput.textContent = await new LollipopCSS().compileAsync(source, {
-                    baseUrl: response.url
-                });
-            } catch (error) {
-                const message = `Unable to display comparison: ${error.message}`;
-                sourceOutput.textContent = message;
-                compiledOutput.textContent = message;
-                console.error("CSS preview failed:", error);
+                throw new Error(`Unknown playground import: ${specifier}. Try "./tokens.lcss".`);
             }
-        }
 
-        document.addEventListener("DOMContentLoaded", showCompiledCSS);
+            async function compileCurrent() {
+                const run = ++compileRun;
+                const source = input.value;
+                const compiler = new LollipopCSS();
+
+                try {
+                    const css = await compiler.compileAsync(source, {
+                        baseUrl: new URL("./playground.lcss", window.location.href).href,
+                        loadImport
+                    });
+
+                    if (run !== compileRun) return;
+
+                    lastSuccessfulCss = css.trim();
+                    output.textContent = lastSuccessfulCss || "/* Nothing to compile yet. */";
+                    error.hidden = true;
+                    error.textContent = "";
+                    setStatus("Compiled", "ok");
+                } catch (compileError) {
+                    if (run !== compileRun) return;
+
+                    output.textContent = lastSuccessfulCss || "/* Fix the input to see compiled CSS. */";
+                    error.textContent = compileError.message;
+                    error.hidden = false;
+                    setStatus("Error", "error");
+                }
+            }
+
+            function scheduleCompile() {
+                clearTimeout(compileTimer);
+                setStatus("Compiling", "pending");
+                compileTimer = window.setTimeout(compileCurrent, 160);
+            }
+
+            presetButtons.forEach(button => {
+                button.addEventListener("click", () => {
+                    presetButtons.forEach(item => item.classList.remove("is-active"));
+                    button.classList.add("is-active");
+                    input.value = presets[button.dataset.preset];
+                    compileCurrent();
+                    input.focus();
+                });
+            });
+
+            input.addEventListener("input", scheduleCompile);
+
+            copyButton.addEventListener("click", async () => {
+                try {
+                    await navigator.clipboard.writeText(output.textContent);
+                    copyButton.textContent = "Copied";
+                    window.setTimeout(() => {
+                        copyButton.textContent = "Copy CSS";
+                    }, 1200);
+                } catch (copyError) {
+                    copyButton.textContent = "Copy failed";
+                    window.setTimeout(() => {
+                        copyButton.textContent = "Copy CSS";
+                    }, 1200);
+                }
+            });
+
+            input.value = presets.starter;
+            compileCurrent();
+        });
     </script>
 </body>
 

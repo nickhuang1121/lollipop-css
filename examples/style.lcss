@@ -1,201 +1,528 @@
 @importlollipop "./var.lcss"
 @importlollipop "./basic.lcss"
 
+.skip-link {
+    position: fixed;
+    top: px12;
+    left: px12;
+    z-index: 20;
+    padding: px10 px14;
+    BGWhite
+    textInk
+    borderStrong
+    radiusSm
+    transform: translateY(-160%);
+}
 
-.cards {
-    displayG
-    paddingMd
-    grid3ColBox
-    gapLg
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+.hero,
+.section {
+    widthFull
+    max-width: maxShell;
     marginAuto
     marginRightAuto
-    minWidth0
+    padding-left: px24;
+    padding-right: px24;
 }
 
-.card {
-    BGW
-    roundCornersMD
-    paddingMd
-    fontColorInk
-    borderGlass
-    shadowCard
-    transitionCard
-    minWidth0
+.hero {
+    min-height: min(860px, 100svh);
+    padding-top: px20;
+    padding-bottom: px48;
+    displayG
+    alignStart
 }
 
-.card:hover {
-    liftCard
-    shadowCard
-}
-
-.manifesto {
-    gridFull
-    BGW
-}
-
-.manifesto blockquote {
-    margin0
-}
-
-.manifesto-lead {
-    fontLead
-    fontBold
-}
-
-.manifesto-punchline {
-    fontPunchline
-    fontBold
-    fontColorDeepPink
-}
-
-.card:nth-child(3) {
-    BGLightPurpl
-}
-
-.card:nth-child(5) {
-    BGLightPink
-}
-
-.card:nth-child(3) .card-title {
-    BGLightPurpl
-}
-
-.card:nth-child(4) .card-title {
-    BGDeepSky
-}
-
-.card-title {
-    paddingMd
-    roundCornersMD
-    BGDeepPink
-    fontColorWhite
+.top-nav {
     displayF
     alignCenter
+    justifyBetween
+    gapMd
+    widthFull
+    padding-top: px8;
+    padding-bottom: px32;
 }
 
-.card-title::after {
-    ...afterUnit
-    background-image: url("https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f36d.svg");
+.brand,
+.nav-links,
+.hero-actions,
+.philosophy-links,
+.preset-group {
+    displayF
+    alignCenter
+    flexWrap
+    gapSm
 }
 
-.card-content {
-    paddingMd
-    lineH
-    minWidth0
+.brand {
+    text-decoration: none;
+    weightBold
+    font-size: 1.05rem;
+}
+
+.brand img {
+    width: px32;
+    height: px32;
+}
+
+.nav-links a {
+    padding: px8 px12;
+    text-decoration: none;
+    textMuted
+    radiusPill
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+    BGWhite
+    textInk
+}
+
+.hero-grid {
+    displayG
+    gridHero
+    gapSection
+    alignCenter
+    widthFull
+}
+
+.hero-copy {
+    max-width: 700px;
+}
+
+.eyebrow {
+    margin0
+    textCandy
+    weightBold
+    font-size: .78rem;
+    letterNormal
+    text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
     wrapAnywhere
 }
 
-.card-content p:first-child {
-    marginTop0
+h1 {
+    margin-bottom: px20;
+    font-size: 4.65rem;
+    lineTight
+    letterNormal
 }
 
-.card-content p:last-child {
-    marginBottom0
+h2 {
+    margin-bottom: px14;
+    font-size: 2.25rem;
+    lineTight
+    letterNormal
 }
 
-.card-content pre {
-    margin0
-    paddingMd
-    minWidth0
-    widthFull
-    maxWidthFull
-    overflowXAuto
-    whiteSpacePre
-    touchScroll
-    roundCornersSm
-    BGLG
-    fontColorGray
+h3 {
+    margin-bottom: px10;
+    font-size: 1.05rem;
+    letterNormal
 }
 
-.card-content code {
-    fontCode
+.hero-subtitle {
+    max-width: 560px;
+    margin-bottom: px24;
+    font-size: 1.35rem;
+    lineRelaxed
+    textMuted
 }
 
-.export-button {
-    marginTopMd
-    paddingSmMd
-    border0
-    roundCornersSm
-    BGDeepPink
-    fontColorWhite
-    fontInherit
-    fontBold
+.hero-note {
+    margin-top: px18;
+    margin-bottom: 0;
+    textMuted
+    weightSemi
+}
+
+.button,
+.preset-button,
+.copy-button {
+    displayInlineF
+    alignCenter
+    justifyCenter
+    min-height: 44px;
+    padding: px10 px16;
+    borderStrong
+    radiusPill
+    BGWhite
+    textInk
+    text-decoration: none;
+    weightBold
     cursorPointer
-    shadowButton
+    transitionFast
 }
 
-.export-button:hover {
-    hoverDim
+.button:hover,
+.button:focus-visible,
+.preset-button:hover,
+.preset-button:focus-visible,
+.copy-button:hover,
+.copy-button:focus-visible {
+    liftSmall
+    shadowSmall
 }
 
-.export-button:focus-visible {
-    focusOutline
-    focusOutlineOffset
+.button-primary,
+.preset-button.is-active {
+    background: colorInk;
+    color: colorWhite;
+    border-color: colorInk;
 }
 
-.compiled-example {
-    gridFull
+.hero-code {
+    minWidth0
 }
 
-.loading-guide {
-    gridFull
+.section {
+    padding-top: px64;
+    padding-bottom: px64;
 }
 
-.loading-grid {
+.section-heading {
+    max-width: maxMeasure;
+    margin-bottom: px28;
+}
+
+.section-heading p:last-child {
+    margin-bottom: 0;
+    lineRelaxed
+    textMuted
+}
+
+.compare-grid,
+.feature-grid {
     displayG
-    grid2ColBox
-    gapLg
-    minWidth0
+    grid3
+    gapMd
 }
 
-.loading-method {
-    paddingMd
-    roundCornersSm
-    BGLG
-    minWidth0
-}
-
-.loading-method h3 {
-    marginTop0
-}
-
-.comparison-grid {
+.imports-grid,
+.playground-grid {
     displayG
-    grid2ColBox
-    gapLg
+    grid2
+    gapMd
+}
+
+.code-panel,
+.feature-card,
+.playground-pane {
+    borderLine
+    radiusMd
+    BGWhite
     minWidth0
+    box-shadow: 0 14px 50px rgba(49,40,58,.08);
 }
 
-.comparison-panel {
-    minWidth0
+.code-panel {
+    overflow: hidden;
 }
 
-.comparison-label {
-    marginTop0
-    marginBottom0
-    paddingSmMd
-    BGDeepPink
-    fontColorWhite
-    roundCornersSm
+.code-panel-accent {
+    border-color: rgba(255,95,158,.34);
+    box-shadow: 0 18px 60px rgba(255,95,158,.15);
 }
 
-.code-output {
+.panel-header,
+.pane-title {
+    displayF
+    alignCenter
+    justifyBetween
+    gapSm
+    padding: px12 px14;
+    border-bottom: 1px solid colorLine;
+    font-size: .82rem;
+    weightBold
+    color: colorMuted;
+}
+
+.panel-header span:first-child,
+.pane-title span:first-child {
+    color: colorInk;
+}
+
+.code-panel pre,
+.feature-card pre,
+.output-pre {
+    BGCode
+    color: #f7efff;
     overflowAuto
-    maxOutputHeight
-    widthFull
-    maxWidthFull
 }
 
-@media (max-width: 768px) {
-    .cards {
-        grid1ColBox
+.code-panel pre {
+    min-height: 360px;
+}
+
+.code-panel code,
+.feature-card code,
+.output-pre code {
+    displayB
+    min-width: max-content;
+    padding: px16;
+    font-size: .88rem;
+    line-height: 1.58;
+    whiteSpacePre
+}
+
+.compare-section .code-panel pre {
+    min-height: 560px;
+}
+
+.playground-section {
+    max-width: 1260px;
+}
+
+.playground-toolbar {
+    displayF
+    alignCenter
+    justifyBetween
+    gapMd
+    margin-bottom: px14;
+}
+
+.preset-group {
+    padding: px4;
+    borderLine
+    radiusPill
+    BGWhite
+}
+
+.preset-button {
+    min-height: 36px;
+    padding: px8 px12;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.copy-button {
+    min-width: 104px;
+}
+
+.playground-pane {
+    displayG
+    grid-template-rows: auto minmax(420px, 58vh) auto;
+    overflow: hidden;
+}
+
+.pane-title-row {
+    min-height: 50px;
+}
+
+.compile-status {
+    padding: px4 px8;
+    border-radius: 999px;
+    background: rgba(49,40,58,.08);
+    color: colorMuted;
+}
+
+.compile-status[data-state="ok"] {
+    background: rgba(15,143,104,.12);
+    color: colorGreen;
+}
+
+.compile-status[data-state="error"] {
+    background: rgba(255,95,158,.16);
+    color: colorCandy;
+}
+
+#lcss-input {
+    widthFull
+    minWidth0
+    height: 100%;
+    padding: px16;
+    border0
+    outline: none;
+    resize: none;
+    BGCode
+    color: #f7efff;
+    font-size: .92rem;
+    line-height: 1.6;
+    whiteSpacePre
+}
+
+#lcss-input:focus {
+    box-shadow: inset 0 0 0 3px rgba(162,210,255,.7);
+}
+
+.output-pre {
+    height: 100%;
+    minWidth0
+}
+
+.compile-error {
+    margin0
+    padding: px12 px14;
+    border-top: 1px solid rgba(255,95,158,.28);
+    background: rgba(255,95,158,.10);
+    color: colorCandy;
+    font-size: .92rem;
+}
+
+.feature-card {
+    padding: px18;
+}
+
+.feature-card p {
+    min-height: 3.2em;
+    margin-bottom: px14;
+    textMuted
+    lineRelaxed
+}
+
+.feature-card pre {
+    radiusSm
+}
+
+.feature-card code {
+    min-width: 0;
+    font-size: .82rem;
+}
+
+.imports-section {
+    padding-top: px48;
+}
+
+.philosophy-section {
+    displayG
+    grid2
+    gapXl
+    alignCenter
+    padding-bottom: px72;
+}
+
+.philosophy-copy {
+    max-width: maxMeasure;
+}
+
+.philosophy-copy p {
+    lineRelaxed
+    textMuted
+}
+
+.philosophy-copy p:first-of-type {
+    color: colorCandy;
+}
+
+.philosophy-copy .punchline {
+    margin-bottom: 0;
+    color: colorInk;
+    weightBold
+}
+
+.philosophy-links {
+    justify-content: flex-end;
+}
+
+@media (max-width: 1040px) {
+    .compare-grid,
+    .feature-grid {
+        grid2
     }
 
-    .comparison-grid {
-        grid1ColBox
+    h1 {
+        font-size: 3.75rem;
+    }
+}
+
+@media (max-width: 860px) {
+    .hero,
+    .section {
+        padding-left: px18;
+        padding-right: px18;
     }
 
-    .loading-grid {
-        grid1ColBox
+    .hero {
+        min-height: auto;
+        padding-bottom: px40;
+    }
+
+    .top-nav {
+        align-items: flex-start;
+        padding-bottom: px24;
+    }
+
+    .nav-links {
+        justify-content: flex-end;
+    }
+
+    .hero-grid,
+    .imports-grid,
+    .playground-grid,
+    .philosophy-section {
+        grid-template-columns: 1fr;
+    }
+
+    .playground-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .copy-button {
+        widthFull
+    }
+
+    .compare-section .code-panel pre,
+    .code-panel pre {
+        min-height: 0;
+    }
+
+    .playground-pane {
+        grid-template-rows: auto minmax(340px, 52vh) auto;
+    }
+
+    .philosophy-links {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 640px) {
+    .top-nav,
+    .brand,
+    .nav-links,
+    .hero-actions,
+    .preset-group {
+        widthFull
+    }
+
+    .top-nav {
+        displayG
+    }
+
+    .nav-links a,
+    .button,
+    .preset-button {
+        flex: 1 1 auto;
+    }
+
+    .compare-grid,
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 2.55rem;
+    }
+
+    h2 {
+        font-size: 1.85rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .section {
+        padding-top: px48;
+        padding-bottom: px48;
     }
 }

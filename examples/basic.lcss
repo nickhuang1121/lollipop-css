@@ -2,9 +2,51 @@
     boxBorder
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin0
-    paddingMd
+    fontBody
+    textInk
     BGPage
-    minPageHeight
+    min-width: 320px;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(circle at 14% 18%, rgba(255,175,204,.34) 0 7px, transparent 8px), radial-gradient(circle at 82% 12%, rgba(162,210,255,.42) 0 8px, transparent 9px), radial-gradient(circle at 92% 72%, rgba(189,224,254,.45) 0 10px, transparent 11px), radial-gradient(circle at 8% 82%, rgba(205,180,219,.32) 0 6px, transparent 7px);
+}
+
+a {
+    color: inherit;
+}
+
+button,
+textarea {
+    font: inherit;
+}
+
+button {
+    border0
+}
+
+code,
+pre,
+textarea {
+    fontMono
+}
+
+pre {
+    margin0
+}
+
+::selection {
+    background: colorPink;
+    color: colorInk;
 }
