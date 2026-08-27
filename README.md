@@ -1,5 +1,9 @@
 # 🍭 LollipopCSS
 
+![Version](https://img.shields.io/badge/version-0.2.0-ffafcc)
+![License](https://img.shields.io/badge/license-MIT-cdb4db)
+
+**Current version: 0.2.0**
 **Write less CSS. Stay lazy.**
 
 LollipopCSS is a tiny CSS preprocessor for defining your own reusable values, shortcuts, and style snippets.
@@ -665,6 +669,10 @@ Want to see it in action?
 ---
 
 ## Project Status
+
+🚧 **Experimental — v0.2.0**
+
+LollipopCSS is currently under development.
 
 🚧 **Experimental**
 

@@ -1,0 +1,95 @@
+@lollipop {
+    // Design tokens
+    colorDeepSky #a2d2ff
+    colorLightGray #fafafa
+    colorGray #aaa
+    colorInk #4d4058
+    colorWhite white
+    colorDeepPink #ffafcc
+    colorLightPink #ffc8dd
+    colorLightPurpl #cdb4db
+    pxSm 10px
+    pxMd 15px
+    pxLg 24px
+    emMd 1.6em
+    multipleMd 1.8
+    
+    // Spacing and shape
+    paddingMd padding pxMd
+    paddingSmMd padding pxSm pxMd
+    margin0 margin 0
+    marginTop0 margin-top 0
+    marginTopMd margin-top pxMd
+    marginBottom0 margin-bottom 0
+    marginAuto margin-left auto
+    marginRightAuto margin-right auto
+    gapLg gap pxLg
+    roundCornersSm border-radius pxSm
+    roundCornersMD border-radius pxMd
+
+    // Color and surface
+    fontColorDeepPink color colorDeepPink
+    fontColorGray color colorGray
+    fontColorInk color colorInk
+    fontColorWhite color colorWhite
+    BGDeepSky background colorDeepSky
+    BGDeepPink background colorDeepPink
+    BGLightPink background colorLightPink
+    BGLightPurpl background colorLightPurpl
+    BGW background white
+    BGLG background colorLightGray
+    BGPage background linear-gradient(135deg, colorDeepSky 0%, colorLightPink 52%, colorLightPurpl 100%)
+    borderGlass border 2px solid rgba(255,255,255,.55)
+    shadowCard box-shadow 0 12px 32px rgba(83,61,105,.14)
+    shadowButton box-shadow 0 6px 16px rgba(255,175,204,.55)
+
+    // Typography
+    lineH line-height multipleMd
+    fontCode font-family Consolas, "Courier New", monospace
+    fontInherit font inherit
+    fontBold font-weight 700
+    fontLead font-size 1.35rem
+    fontPunchline font-size 1.15rem
+
+    // Layout
+    displayG display grid
+    displayF display flex
+    displayB display block
+    alignCenter align-items center
+    grid3ColBox grid-template-columns repeat(3,1fr)
+    grid2ColBox grid-template-columns repeat(2,minmax(0,1fr))
+    grid1ColBox grid-template-columns 1fr
+    gridFull grid-column 1/-1
+    minPageHeight min-height 100vh
+    minWidth0 min-width 0
+    widthFull width 100%
+    maxWidthFull max-width 100%
+    boxBorder box-sizing border-box
+
+    // Interaction and overflow
+    border0 border 0
+    overflowXAuto overflow-x auto
+    overflowAuto overflow auto
+    maxOutputHeight max-height 70vh
+    wrapAnywhere overflow-wrap anywhere
+    whiteSpacePre white-space pre
+    touchScroll -webkit-overflow-scrolling touch
+    cursorPointer cursor pointer
+    hoverDim filter brightness(.95)
+    focusOutline outline 3px solid colorDeepSky
+    focusOutlineOffset outline-offset 3px
+    transitionCard transition transform .2s ease,box-shadow .2s ease
+    liftCard transform translateY(-4px)
+
+    afterUnit {
+        content: "";
+        displayB
+        flex: 0 0 emMd;
+        width: emMd;
+        height: emMd;
+        margin-left: auto;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
+}

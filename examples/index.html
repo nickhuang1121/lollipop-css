@@ -95,8 +95,79 @@
             </div>
         </article>
 
+        <article class="card loading-guide">
+            <h2 class="card-title">5. Every loading method</h2>
+            <div class="card-content">
+                <p>Choose the smallest API that matches where your LCSS comes from.</p>
+                <div class="loading-grid">
+                    <section class="loading-method">
+                        <h3>Automatic external file</h3>
+                        <p>Best for normal browser usage. Imports are resolved automatically.</p>
+                        <pre><code>&lt;link rel="lollipop-stylesheet"
+      href="./style.lcss"&gt;
+&lt;script src="lollipop-css.js" defer&gt;&lt;/script&gt;</code></pre>
+                    </section>
+
+                    <section class="loading-method">
+                        <h3>JavaScript URL loading</h3>
+                        <p>Loads, compiles, resolves imports, and inserts a <code>&lt;style&gt;</code>.</p>
+                        <pre><code>await LollipopCSS.load("./style.lcss");</code></pre>
+                    </section>
+
+                    <section class="loading-method">
+                        <h3>Inline LCSS</h3>
+                        <p>Useful for small styles without external imports.</p>
+                        <pre><code>&lt;style type="text/lollipop"&gt;
+@lollipop {
+    pink #ffafcc
+}
+&lt;/style&gt;</code></pre>
+                    </section>
+
+                    <section class="loading-method">
+                        <h3>Compile a string</h3>
+                        <p>
+                            <code>source</code> is a JavaScript string containing raw LCSS,
+                            such as text from an editor, a textarea, or generated content.
+                            Use the synchronous compiler when that string has no imports.
+                        </p>
+                        <pre><code>const source = `
+@lollipop {
+    pink #ffafcc
+    BGpink background pink
+}
+
+.card {
+    BGpink
+}`;
+
+const compiler = new LollipopCSS();
+const css = compiler.compile(source);</code></pre>
+                    </section>
+
+                    <section class="loading-method">
+                        <h3>Compile a string with imports</h3>
+                        <p>The base URL tells relative imports where to load from.</p>
+                        <pre><code>const css = await compiler.compileAsync(source, {
+    baseUrl: response.url
+});</code></pre>
+                        <p><a href="./index_import.html">Open the complete manual import example →</a></p>
+                    </section>
+
+                    <section class="loading-method">
+                        <h3>Download compiled CSS</h3>
+                        <p>Compiles the URL and downloads the result as a regular file.</p>
+                        <pre><code>await LollipopCSS.load("./style.lcss", {
+    output: "download",
+    filename: "style.css"
+});</code></pre>
+                    </section>
+                </div>
+            </div>
+        </article>
+
         <article class="card compiled-example">
-            <h2 class="card-title">5. LCSS → CSS comparison</h2>
+            <h2 class="card-title">6. LCSS → CSS comparison</h2>
             <div class="card-content">
                 <p>
                     Both panels come from the same live <code>style.lcss</code> file.
@@ -140,7 +211,9 @@
 
                 const source = await response.text();
                 sourceOutput.textContent = source;
-                compiledOutput.textContent = new LollipopCSS().compile(source);
+                compiledOutput.textContent = await new LollipopCSS().compileAsync(source, {
+                    baseUrl: response.url
+                });
             } catch (error) {
                 const message = `Unable to display comparison: ${error.message}`;
                 sourceOutput.textContent = message;

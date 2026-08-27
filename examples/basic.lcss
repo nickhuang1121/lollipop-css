@@ -1,0 +1,10 @@
+* {
+    boxBorder
+}
+
+body {
+    margin0
+    paddingMd
+    BGPage
+    minPageHeight
+}

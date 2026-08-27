@@ -109,24 +109,32 @@ class LollipopCSS {
     }
 
     extractSweetBlock(source) {
-        const block = this.findLollipopBlock(source);
-        if (!block) {
+        const configs = [];
+        let css = source;
+        let block;
+
+        while ((block = this.findLollipopBlock(css)) !== null) {
+            const { start, openBrace } = block;
+            const closeBrace = this.findClosingBrace(css, openBrace);
+            if (closeBrace === -1) {
+                throw new Error("@lollipop block is missing a closing }");
+            }
+
+            configs.push(css.slice(openBrace + 1, closeBrace));
+            // Remove the entire block so its line breaks do not add blank space
+            // to the beginning of the compiled output.
+            css = css.slice(0, start) + css.slice(closeBrace + 1);
+        }
+
+        if (!configs.length) {
             // The @lollipop configuration is optional, so plain CSS/SCSS files
             // can pass through the automatic loader unchanged.
             return { config: "", css: source };
         }
 
-        const { start, openBrace } = block;
-        const closeBrace = this.findClosingBrace(source, openBrace);
-        if (closeBrace === -1) {
-            throw new Error("@lollipop block is missing a closing }");
-        }
-
         return {
-            config: source.slice(openBrace + 1, closeBrace),
-            // Remove the entire block so its line breaks do not add blank space
-            // to the beginning of the compiled output.
-            css: source.slice(0, start) + source.slice(closeBrace + 1)
+            config: configs.join("\n"),
+            css
         };
     }
 
@@ -305,10 +313,93 @@ class LollipopCSS {
         return parts.join("");
     }
 
+    hasImportDirective(source) {
+        const parts = source.split(/(\r\n|\n|\r)/);
+        const syntaxState = { blockComment: false, quote: "" };
+
+        for (let i = 0; i < parts.length; i += 2) {
+            const line = parts[i];
+            if (!syntaxState.blockComment && !syntaxState.quote
+                && /^@importlollipop\s+(["']).+?\1\s*;?$/.test(line.trim())) {
+                return true;
+            }
+            this.advanceSyntaxState(line + (parts[i + 1] || ""), syntaxState);
+        }
+
+        return false;
+    }
+
     compile(source) {
+        if (this.hasImportDirective(source)) {
+            throw new Error(
+                "@importlollipop requires compileAsync() or LollipopCSS.load()"
+            );
+        }
         const { config, css } = this.extractSweetBlock(source);
         const { values, utilities, snippets } = this.parseConfig(config);
         return this.compileCss(css, values, utilities, snippets);
+    }
+
+    async expandImports(source, options = {}, importStack = new Set()) {
+        const parts = source.split(/(\r\n|\n|\r)/);
+        const syntaxState = { blockComment: false, quote: "" };
+        const loadImport = options.loadImport || LollipopCSS.fetchImport;
+
+        for (let i = 0; i < parts.length; i += 2) {
+            const line = parts[i];
+            const canImport = !syntaxState.blockComment && !syntaxState.quote;
+            const match = canImport && line.trim().match(
+                /^@importlollipop\s+(["'])(.+?)\1\s*;?$/
+            );
+
+            if (!match) {
+                this.advanceSyntaxState(line + (parts[i + 1] || ""), syntaxState);
+                continue;
+            }
+
+            const imported = await loadImport(match[2], options.baseUrl || "");
+            const importedSource = typeof imported === "string"
+                ? imported
+                : imported.source;
+            const importedBaseUrl = typeof imported === "string"
+                ? match[2]
+                : (imported.baseUrl || match[2]);
+
+            if (typeof importedSource !== "string") {
+                throw new Error(`Import loader returned no source for ${match[2]}`);
+            }
+            if (importStack.has(importedBaseUrl)) {
+                throw new Error(`Circular @importlollipop detected: ${importedBaseUrl}`);
+            }
+
+            const nextStack = new Set(importStack);
+            nextStack.add(importedBaseUrl);
+            parts[i] = await this.expandImports(importedSource, {
+                ...options,
+                baseUrl: importedBaseUrl,
+                loadImport
+            }, nextStack);
+        }
+
+        return parts.join("");
+    }
+
+    async compileAsync(source, options = {}) {
+        const stack = new Set();
+        if (options.baseUrl) stack.add(options.baseUrl);
+        return this.compile(await this.expandImports(source, options, stack));
+    }
+
+    static async fetchImport(specifier, baseUrl) {
+        const url = new URL(specifier, baseUrl).href;
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to load ${url}: ${response.status}`);
+        }
+        return {
+            source: await response.text(),
+            baseUrl: response.url || url
+        };
     }
 
     static apply(css, target = document.head) {
@@ -347,7 +438,9 @@ class LollipopCSS {
         }
 
         const compiler = new LollipopCSS();
-        const css = compiler.compile(await response.text());
+        const css = await compiler.compileAsync(await response.text(), {
+            baseUrl: response.url || new URL(url, document.baseURI).href
+        });
 
         if (output === "text") return css;
         if (output === "download") {
@@ -395,7 +488,7 @@ class LollipopCSS {
 
 }
 
-LollipopCSS.version = "0.1.0";
+LollipopCSS.version = "0.2.0";
 globalThis.LollipopCSS = LollipopCSS;
 
 // CommonJS export for Node.js tests and server-side compilation.

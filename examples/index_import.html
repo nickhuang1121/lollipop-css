@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Manual LollipopCSS import example">
+    <title>LollipopCSS Manual Import Example</title>
+    <!-- No lollipop-stylesheet link: this page compiles and applies LCSS manually. -->
+    <script src="../src/lollipop-css.js" defer></script>
+</head>
+<body>
+    <main class="cards">
+        <article class="card manifesto">
+            <h1 class="card-title">Manual @importlollipop</h1>
+            <div class="card-content">
+                <p id="load-status" role="status">Loading style.lcss and its imports…</p>
+                <p>
+                    This page has no <code>rel="lollipop-stylesheet"</code> link.
+                    JavaScript loads, compiles, and applies the stylesheet manually.
+                </p>
+                <pre><code>@importlollipop "./var.lcss"</code></pre>
+            </div>
+        </article>
+
+        <article class="card compiled-example">
+            <h2 class="card-title">Manual loading code</h2>
+            <div class="card-content">
+                <pre><code>const response = await fetch("./style.lcss");
+const source = await response.text();
+
+const compiler = new LollipopCSS();
+const css = await compiler.compileAsync(source, {
+    baseUrl: response.url
+});
+
+LollipopCSS.apply(css);</code></pre>
+                <p><a href="./index.html">Back to the main example</a></p>
+            </div>
+        </article>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const status = document.getElementById("load-status");
+
+            try {
+                const response = await fetch("./style.lcss");
+                if (!response.ok) {
+                    throw new Error(`Failed to load style.lcss: ${response.status}`);
+                }
+
+                const source = await response.text();
+                const compiler = new LollipopCSS();
+                const css = await compiler.compileAsync(source, {
+                    baseUrl: response.url
+                });
+                
+
+                const style = LollipopCSS.apply(css);
+                style.dataset.lollipopSource = response.url;
+                status.textContent = "Success: style.lcss and var.lcss were compiled and applied.";
+            } catch (error) {
+                status.textContent = `Import failed: ${error.message}`;
+                console.error("Manual LollipopCSS import failed:", error);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -17,8 +17,19 @@ function test(name, callback) {
     }
 }
 
+async function testAsync(name, callback) {
+    try {
+        await callback();
+        passed++;
+        console.log(`✓ ${name}`);
+    } catch (error) {
+        console.error(`✗ ${name}`);
+        throw error;
+    }
+}
+
 test("exposes the package version", () => {
-    assert.equal(LollipopCSS.version, "0.1.0");
+    assert.equal(LollipopCSS.version, "0.2.0");
 });
 
 test("keeps plain CSS unchanged", () => {
@@ -91,13 +102,82 @@ test("reports an unclosed @lollipop block", () => {
     );
 });
 
-test("compiles the public example", () => {
-    const examplePath = path.join(__dirname, "..", "examples", "style.lcss");
-    const result = compiler.compile(fs.readFileSync(examplePath, "utf8"));
-
-    assert.doesNotMatch(result, /@lollipop/);
-    assert.match(result, /linear-gradient/);
-    assert.match(result, /grid-template-columns/);
+test("directs imports to the asynchronous compiler", () => {
+    assert.throws(
+        () => compiler.compile('@importlollipop "./vars.lcss"'),
+        /requires compileAsync\(\) or LollipopCSS\.load\(\)/
+    );
 });
 
-console.log(`\nAll ${passed} tests passed.`);
+async function runAsyncTests() {
+    await testAsync("imports another LCSS file", async () => {
+        const files = {
+            "https://example.test/vars.lcss": `@lollipop {
+    pink #ffafcc
+}`
+        };
+        const result = await compiler.compileAsync(`@importlollipop "./vars.lcss"
+@lollipop {
+    BGpink background pink
+}
+.card {
+    BGpink
+}`, {
+            baseUrl: "https://example.test/style.lcss",
+            loadImport: async (specifier, baseUrl) => {
+                const url = new URL(specifier, baseUrl).href;
+                return { source: files[url], baseUrl: url };
+            }
+        });
+
+        assert.match(result, /background: #ffafcc;/);
+        assert.doesNotMatch(result, /@importlollipop|@lollipop|BGpink/);
+    });
+
+    await testAsync("compiles the imported public example", async () => {
+        const examplePath = path.join(__dirname, "..", "examples", "style.lcss");
+        const result = await compiler.compileAsync(
+            fs.readFileSync(examplePath, "utf8"),
+            {
+                baseUrl: examplePath,
+                loadImport: async (specifier, baseUrl) => {
+                    const filePath = path.resolve(path.dirname(baseUrl), specifier);
+                    return {
+                        source: fs.readFileSync(filePath, "utf8"),
+                        baseUrl: filePath
+                    };
+                }
+            }
+        );
+
+        assert.doesNotMatch(result, /@importlollipop|@lollipop/);
+        assert.match(result, /linear-gradient/);
+        assert.match(result, /grid-template-columns/);
+    });
+
+    await testAsync("detects circular LCSS imports", async () => {
+        const files = {
+            "https://example.test/a.lcss": '@importlollipop "./b.lcss"',
+            "https://example.test/b.lcss": '@importlollipop "./a.lcss"'
+        };
+        const loadImport = async (specifier, baseUrl) => {
+            const url = new URL(specifier, baseUrl).href;
+            return { source: files[url], baseUrl: url };
+        };
+
+        await assert.rejects(
+            compiler.compileAsync(files["https://example.test/a.lcss"], {
+                baseUrl: "https://example.test/a.lcss",
+                loadImport
+            }),
+            /Circular @importlollipop detected/
+        );
+    });
+
+    console.log(`\nAll ${passed} tests passed.`);
+}
+
+runAsyncTests().catch(error => {
+    console.error(error);
+    process.exitCode = 1;
+});
