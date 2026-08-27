@@ -61,12 +61,19 @@
     grid1ColBox grid-template-columns 1fr
     gridFull grid-column 1/-1
     minPageHeight min-height 100vh
+    minWidth0 min-width 0
+    widthFull width 100%
+    maxWidthFull max-width 100%
+    boxBorder box-sizing border-box
 
     // Interaction and overflow
     border0 border 0
     overflowXAuto overflow-x auto
     overflowAuto overflow auto
     maxOutputHeight max-height 70vh
+    wrapAnywhere overflow-wrap anywhere
+    whiteSpacePre white-space pre
+    touchScroll -webkit-overflow-scrolling touch
     cursorPointer cursor pointer
     hoverDim filter brightness(.95)
     focusOutline outline 3px solid colorDeepSky
@@ -87,7 +94,12 @@
     }
 }
 
+* {
+    boxBorder
+}
+
 body {
+    margin0
     paddingMd
     BGPage
     minPageHeight
@@ -100,6 +112,7 @@ body {
     gapLg
     marginAuto
     marginRightAuto
+    minWidth0
 }
 
 .card {
@@ -110,6 +123,7 @@ body {
     borderGlass
     shadowCard
     transitionCard
+    minWidth0
 }
 
 .card:hover {
@@ -170,6 +184,8 @@ body {
 .card-content {
     paddingMd
     lineH
+    minWidth0
+    wrapAnywhere
 }
 
 .card-content p:first-child {
@@ -183,7 +199,12 @@ body {
 .card-content pre {
     margin0
     paddingMd
+    minWidth0
+    widthFull
+    maxWidthFull
     overflowXAuto
+    whiteSpacePre
+    touchScroll
     roundCornersSm
     BGLG
     fontColorGray
@@ -223,6 +244,11 @@ body {
     displayG
     grid2ColBox
     gapLg
+    minWidth0
+}
+
+.comparison-panel {
+    minWidth0
 }
 
 .comparison-label {
@@ -237,6 +263,8 @@ body {
 .code-output {
     overflowAuto
     maxOutputHeight
+    widthFull
+    maxWidthFull
 }
 
 @media (max-width: 768px) {
