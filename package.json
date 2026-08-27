@@ -1,0 +1,17 @@
+{
+  "name": "lollipop-css",
+  "version": "0.1.0",
+  "description": "A tiny CSS preprocessor for reusable values, utilities, and snippets.",
+  "main": "src/lollipop-css.js",
+  "scripts": {
+    "test": "node tests/lollipop-css.test.js"
+  },
+  "keywords": [
+    "css",
+    "preprocessor",
+    "utilities",
+    "stylesheet"
+  ],
+  "author": "nick1121",
+  "license": "MIT"
+}

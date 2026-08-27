@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LollipopCSS 瀏覽器端 CSS 小工具示範頁">
+    <title>LollipopCSS Playground</title>
+    <link rel="lollipop-stylesheet" href="./style.lcss">
+    <script src="../src/lollipop-css.js" defer></script>
+</head>
+
+<body>
+
+    <main class="cards" aria-labelledby="intro-title">
+        <article class="card manifesto">
+            <h1 class="card-title" id="intro-title">Why LollipopCSS?</h1>
+            <div class="card-content">
+                <blockquote>
+                    <p class="manifesto-lead">SCSS can already do all of this. That's not the problem.</p>
+                    <p>
+                        The problem is that when I'm maintaining a large project, I'm too lazy
+                        to keep writing <code>@mixin</code> and <code>@include</code> over and over again.
+                    </p>
+                    <p>So I made LollipopCSS.</p>
+                    <p class="manifesto-punchline">
+                        Yes, I'm lazy. Very lazy. 🍭 I have better things to do — like eating
+                        McFlurries and lollipops. 🍦🍭
+                    </p>
+                </blockquote>
+            </div>
+        </article>
+
+        <article class="card">
+            <h2 class="card-title">1. Write LollipopCSS</h2>
+            <div class="card-content">
+                <p>Define a value and a utility inside <code>@lollipop</code>, then use the utility by name.</p>
+                <pre aria-label="LollipopCSS input example"><code>@lollipop {
+    pxMd 15px
+    paddingMd padding pxMd
+}
+
+.card {
+    paddingMd
+}
+.card-title {
+    paddingMd
+}</code></pre>
+            </div>
+        </article>
+
+        <article class="card">
+            <h2 class="card-title">2. Get valid CSS</h2>
+            <div class="card-content">
+                <p>LollipopCSS resolves the reusable value and outputs standard CSS for the browser.</p>
+                <pre aria-label="Compiled CSS output example"><code>.card {
+    padding: 15px;
+}
+.card-title {
+    padding: 15px;
+}</code></pre>
+            </div>
+        </article>
+
+        <article class="card">
+            <h2 class="card-title">3. Apply it automatically</h2>
+            <div class="card-content">
+                <p>
+                    Use <code>rel="lollipop-stylesheet"</code> to load an LCSS file. By default,
+                    LollipopCSS compiles it and replaces the link with a generated
+                    <code>&lt;style&gt;</code> element in the document head.
+                </p>
+                <pre aria-label="Automatic loading example"><code>&lt;link
+    rel="lollipop-stylesheet"
+    href="./style.lcss"
+&gt;
+&lt;script src="lollipop-css.js" defer&gt;&lt;/script&gt;</code></pre>
+            </div>
+        </article>
+
+        <article class="card">
+            <h2 class="card-title">4. Or export a CSS file</h2>
+            <div class="card-content">
+                <p>
+                    Need a standalone file? Set <code>output</code> to <code>download</code>.
+                    The same LCSS source will be compiled and downloaded as regular CSS.
+                </p>
+                <pre aria-label="CSS download example"><code>await LollipopCSS.load("./style.lcss", {
+    output: "download",
+    filename: "style.css"
+});</code></pre>
+                <button class="export-button" type="button" onclick="exportCSS()">
+                    Export style.css
+                </button>
+            </div>
+        </article>
+
+        <article class="card compiled-example">
+            <h2 class="card-title">5. LCSS → CSS comparison</h2>
+            <div class="card-content">
+                <p>
+                    Both panels come from the same live <code>style.lcss</code> file.
+                    Compare the LollipopCSS source with its compiled CSS output.
+                </p>
+                <div class="comparison-grid">
+                    <section class="comparison-panel" aria-labelledby="lcss-source-title">
+                        <h3 class="comparison-label" id="lcss-source-title">Source · style.lcss</h3>
+                        <pre class="code-output" aria-label="Complete LollipopCSS source"><code id="lcss-source-output">Loading style.lcss…</code></pre>
+                    </section>
+                    <section class="comparison-panel" aria-labelledby="css-output-title">
+                        <h3 class="comparison-label" id="css-output-title">Output · style.css</h3>
+                        <pre class="code-output" aria-label="Complete compiled CSS"><code id="compiled-css-output">Compiling style.lcss…</code></pre>
+                    </section>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <script>
+        async function exportCSS() {
+            try {
+                await LollipopCSS.load("./style.lcss", {
+                    output: "download",
+                    filename: "style.css"
+                });
+            } catch (error) {
+                console.error("CSS export failed:", error);
+            }
+        }
+
+        async function showCompiledCSS() {
+            const sourceOutput = document.getElementById("lcss-source-output");
+            const compiledOutput = document.getElementById("compiled-css-output");
+
+            try {
+                const response = await fetch("./style.lcss");
+                if (!response.ok) {
+                    throw new Error(`Failed to load style.lcss: ${response.status}`);
+                }
+
+                const source = await response.text();
+                sourceOutput.textContent = source;
+                compiledOutput.textContent = new LollipopCSS().compile(source);
+            } catch (error) {
+                const message = `Unable to display comparison: ${error.message}`;
+                sourceOutput.textContent = message;
+                compiledOutput.textContent = message;
+                console.error("CSS preview failed:", error);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", showCompiledCSS);
+    </script>
+</body>
+
+</html>
