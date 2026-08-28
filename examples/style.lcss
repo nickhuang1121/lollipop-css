@@ -181,7 +181,20 @@ h3 {
 }
 
 .hero-code {
+    displayG
+    grid2
+    gapSm
+    align-items: stretch;
     minWidth0
+}
+
+.hero-code .code-panel {
+    displayG
+    grid-template-rows: auto 1fr;
+}
+
+.hero-code .code-panel pre {
+    min-height: 0;
 }
 
 .section {
@@ -505,7 +518,8 @@ h3 {
     }
 
     .compare-grid,
-    .feature-grid {
+    .feature-grid,
+    .hero-code {
         grid-template-columns: 1fr;
     }
 

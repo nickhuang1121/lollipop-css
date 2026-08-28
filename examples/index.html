@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="LollipopCSS is a tiny CSS preprocessor for defining your own reusable CSS vocabulary.">
     <title>LollipopCSS - Same CSS. Less typing.</title>
-    <link rel="lollipop-stylesheet" href="./style.lcss">
     <script src="../src/lollipop-css.js" defer></script>
+    <link rel="lollipop-stylesheet" href="./style.lcss">
+    
 </head>
 
 <body>
@@ -39,11 +40,11 @@
                 <p class="hero-note">Define it once. Be lazy everywhere else.</p>
             </section>
 
-            <section class="hero-code" aria-label="LollipopCSS example">
+            <section class="hero-code" aria-label="LollipopCSS input and compiled CSS output">
                 <div class="code-panel code-panel-accent">
                     <div class="panel-header">
                         <span>LollipopCSS</span>
-                        <span>usage.lcss</span>
+                        <span>Input · usage.lcss</span>
                     </div>
                     <pre><code>.card {
     ...flexCenter
@@ -51,11 +52,58 @@
     BGpink
 }</code></pre>
                 </div>
+                <div class="code-panel">
+                    <div class="panel-header">
+                        <span>CSS</span>
+                        <span>Output · compiled.css</span>
+                    </div>
+                    <pre><code>.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: #ffafcc;
+}</code></pre>
+                </div>
             </section>
         </div>
     </header>
 
     <main>
+        <section class="section playground-section" id="playground" aria-labelledby="playground-title">
+            <div class="section-heading">
+                <p class="eyebrow">Try it yourself</p>
+                <h2 id="playground-title">Edit the LollipopCSS. See the CSS instantly.</h2>
+                <p>Change the code below and see it compile into CSS as you type.</p>
+            </div>
+
+            <div class="playground-toolbar" aria-label="Playground presets">
+                <div class="preset-group">
+                    <button class="preset-button is-active" type="button" data-preset="starter">Starter</button>
+                    <button class="preset-button" type="button" data-preset="snippets">Snippets</button>
+                    <button class="preset-button" type="button" data-preset="imports">Imports</button>
+                    <button class="preset-button" type="button" data-preset="plain">Plain CSS</button>
+                </div>
+                <button class="copy-button" type="button" id="copy-css">Copy CSS</button>
+            </div>
+
+            <div class="playground-grid">
+                <label class="playground-pane" for="lcss-input">
+                    <span class="pane-title">LollipopCSS input</span>
+                    <textarea id="lcss-input" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+                </label>
+
+                <section class="playground-pane" aria-labelledby="compiled-title">
+                    <div class="pane-title pane-title-row">
+                        <span id="compiled-title">Compiled CSS output</span>
+                        <span class="compile-status" id="compile-status" aria-live="polite">Ready</span>
+                    </div>
+                    <pre class="output-pre"><code id="css-output"></code></pre>
+                    <p class="compile-error" id="compile-error" role="alert" hidden></p>
+                </section>
+            </div>
+        </section>
+
         <section class="section compare-section" aria-labelledby="compare-title">
             <div class="section-heading">
                 <p class="eyebrow">The lazy bargain</p>
@@ -174,40 +222,6 @@ $space: 16px;
             </div>
         </section>
 
-        <section class="section playground-section" id="playground" aria-labelledby="playground-title">
-            <div class="section-heading">
-                <p class="eyebrow">Interactive playground</p>
-                <h2 id="playground-title">Type LollipopCSS. Get CSS.</h2>
-                <p>The browser compiler below uses the same <code>LollipopCSS</code> API shipped in this repository.</p>
-            </div>
-
-            <div class="playground-toolbar" aria-label="Playground presets">
-                <div class="preset-group">
-                    <button class="preset-button is-active" type="button" data-preset="starter">Starter</button>
-                    <button class="preset-button" type="button" data-preset="snippets">Snippets</button>
-                    <button class="preset-button" type="button" data-preset="imports">Imports</button>
-                    <button class="preset-button" type="button" data-preset="plain">Plain CSS</button>
-                </div>
-                <button class="copy-button" type="button" id="copy-css">Copy CSS</button>
-            </div>
-
-            <div class="playground-grid">
-                <label class="playground-pane" for="lcss-input">
-                    <span class="pane-title">LollipopCSS input</span>
-                    <textarea id="lcss-input" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
-                </label>
-
-                <section class="playground-pane" aria-labelledby="compiled-title">
-                    <div class="pane-title pane-title-row">
-                        <span id="compiled-title">Compiled CSS output</span>
-                        <span class="compile-status" id="compile-status" aria-live="polite">Ready</span>
-                    </div>
-                    <pre class="output-pre"><code id="css-output"></code></pre>
-                    <p class="compile-error" id="compile-error" role="alert" hidden></p>
-                </section>
-            </div>
-        </section>
-
         <section class="section imports-section" aria-labelledby="imports-title">
             <div class="section-heading">
                 <p class="eyebrow">Imports</p>
@@ -256,30 +270,33 @@ $space: 16px;
             <div class="feature-grid">
                 <article class="feature-card">
                     <h3>Custom shortcuts</h3>
-                    <p>Map one command to a CSS property and value.</p>
+                    <p>Define reusable values and map short commands to CSS declarations.</p>
                     <pre><code>@lollipop {
+    pink #ffafcc
     pMd padding 16px
 }</code></pre>
                 </article>
 
                 <article class="feature-card">
-                    <h3>Values</h3>
-                    <p>Name reusable values and reuse them inside shortcuts or declarations.</p>
-                    <pre><code>@lollipop {
-    pink #ffafcc
-    BGpink background pink
-}</code></pre>
-                </article>
+    <h3>Quick setup</h3>
+    <p>Load the compiler and use an LCSS file like a regular stylesheet.</p>
+    <pre><code>&lt;script src="lollipop-css.js" defer&gt;&lt;/script&gt;
+&lt;link rel="lollipop-stylesheet" href="style.lcss"&gt;</code></pre>
+</article>
 
                 <article class="feature-card">
                     <h3>Style blocks</h3>
-                    <p>Reuse a block with <code>...name</code>.</p>
+                    <p>Reuse a block with <code>...name</code></p>
                     <pre><code>@lollipop {
     flexCenter {
         display: flex;
         align-items: center;
     }
-}</code></pre>
+}
+.card {
+    ...flexCenter
+}
+</code></pre>
                 </article>
 
                 <article class="feature-card">
@@ -364,7 +381,15 @@ $space: 16px;
     ...flexCenter
     pMd
     BGpink
-}`,
+}
+.title {
+    ...flexCenter
+}
+.footer{
+    ...flexCenter 
+    BGpink          
+}`
+,
                 snippets: `@lollipop {
     space 20px
     candy #ffafcc
