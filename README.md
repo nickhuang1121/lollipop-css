@@ -182,6 +182,21 @@ LollipopCSS compiles it to normal CSS:
 **Define once. Type less everywhere else.**
 
 ---
+## 🍭 VS Code IntelliSense
+
+LollipopCSS has an optional VS Code extension that makes working with `.lcss` files easier.
+
+### Features
+
+- Syntax highlighting for LollipopCSS
+- Autocomplete for your custom shortcuts
+- Hover information for definitions
+- Find usages before changing a shared definition
+
+👉 [Install LollipopCSS IntelliSense from the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=nickhuang1121.lollipop-css-intellisense)
+
+This is especially useful when your LollipopCSS definitions grow larger and are reused across many selectors.
+——
 
 ## Features
 
